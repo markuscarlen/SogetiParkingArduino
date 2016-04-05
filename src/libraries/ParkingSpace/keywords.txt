@@ -1,0 +1,21 @@
+###################################
+# Syntax Coloring Map For ParkingLot
+###################################
+
+###################################
+# Datatypes (KEYWORD1)
+###################################
+
+ParkingSpace	KEYWORD1
+
+###################################
+# Methods and Functions (KEYWORD2)
+###################################
+
+PingAndReturnStatusChanged	KEYWORD2
+PingAndReturnFreeStatus		KEYWORD2
+IsFree						KEYWORD2
+GetSpaceNumber				KEYWORD2
+###################################
+# Constants (LITERAL1)
+###################################
