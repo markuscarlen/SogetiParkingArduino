@@ -1,6 +1,7 @@
 #include "ParkingSpace.h"
 
 #define LED 13
+#define FonaPower 5
 
 char stringToSend[160];
 
@@ -14,6 +15,7 @@ unsigned long ul_Interval = 600000UL; //Interval 10min (10*60*1000)
 void setup()
 {
   pinMode(LED, OUTPUT); //LED for showing sending to server.
+  pinMode(FonaPower, OUTPUT);  
 
   InitSerialPort();
   InitFonaGsm();
@@ -79,6 +81,12 @@ void InitSerialPort()
     ; // wait for serial port to connect. Needed for native USB port only
   }
   Serial.println(F("Starting..."));
+}
+
+void Restart()
+{
+    
+  
 }
 
 
