@@ -1,6 +1,7 @@
 #include "ParkingSpace.h"
 
 #define LED 2
+#define POWER_SAVING_PIN 5
 #define APP_VERSION(Major, Minor) Major << 4 + Minor
 
 #define APP_MAJOR 1
@@ -21,18 +22,16 @@ void setup()
 
   InitSerialPort();
   InitNrf24();
-
+  parkingSpace.EnablePowerSaving(POWER_SAVING_PIN);
   SendTimeIntervalStatusUpdate();
   ul_PreviousMillis = millis();
 }
 
 void loop()
 { 
-  delay(500);
+  delay(2000);
   if(parkingSpace.PingAndReturnStatusChanged()) SendData(parkingSpace.GetSpaceNumber(), parkingSpace.IsFree());
-
   if(IntervalTimerElapsed()) SendTimeIntervalStatusUpdate();
-
 }
 
 void SendData(int spaceNr, bool isFree)
