@@ -5,8 +5,6 @@
 
 RH_NRF24 nrf24;
 
-
-
 void InitNrf24()
 {
   if (!nrf24.init())Serial.println("init failed");
@@ -16,20 +14,19 @@ void InitNrf24()
   //if(!nrf24.sleep()) Serial.println("setSleep failed");
 }
 
-
 bool Nrf24SendData(unsigned int parkingSpace, bool isFree, byte errorCode)
 {
   byte data[8];
   byte timeOut = 0; 
   
-  data[7] = PROTOCOL_VERSION;
-  data[6] = APP_VERSION(APP_MAJOR, APP_MINOR);
-  data[5] = parkingSpace >> 8;
-  data[4] = parkingSpace %256;
-  data[3] = isFree;
-  data[2] = 100; //Reserved
-  data[1] = 100;
-  data[0] = 100; //Battery Voltage
+  data[0] = PROTOCOL_VERSION;
+  data[1] = APP_VERSION(APP_MAJOR, APP_MINOR);
+  data[2] = parkingSpace >> 8;
+  data[3] = parkingSpace %256;
+  data[4] = isFree;
+  data[5] = 100; //Reserved
+  data[6] = 100;
+  data[7] = 100; //Battery Voltage
 
   Serial.println("Sending nrf24...");
   while(1)
