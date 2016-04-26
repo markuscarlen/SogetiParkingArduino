@@ -10,9 +10,27 @@ ParkingSpace::ParkingSpace(unsigned int parkingSpaceNumber, uint8_t trigPin, uin
 	_maxOccupiedDistance_cm = maxOccupiedDistance_cm;
 }
 
+void ParkingSpace::EnablePowerSaving(unsigned int powerDownPin)
+{
+	_powerSavingEnabled = true;
+	_powerDownPin = powerDownPin;
+	pinMode(_powerDownPin, OUTPUT);
+	digitalWrite(_powerDownPin, LOW);
+}
+
+void ParkingSpace::DisablePowerSaving()
+{
+	if (_powerSavingEnabled)
+	{
+		digitalWrite(_powerDownPin, HIGH);
+	}
+	_powerSavingEnabled = false;
+}
+
 bool ParkingSpace::PingAndReturnStatusChanged()
 {
-	int uS = _distanceSensor.ping_median(19);
+	int uS = PingMedian(19);
+
 	int distance = (uS / US_ROUNDTRIP_CM);
 	
 	bool isFree = EvaluateIfFree(distance);
@@ -28,7 +46,7 @@ bool ParkingSpace::PingAndReturnStatusChanged()
 
 bool ParkingSpace::PingAndReturnFreeStatus()
 {
-	int uS = _distanceSensor.ping_median(15);
+	int uS = PingMedian(15);
 	int distance = (uS / US_ROUNDTRIP_CM);
 
 	bool isFree = EvaluateIfFree(distance);
@@ -36,6 +54,24 @@ bool ParkingSpace::PingAndReturnFreeStatus()
 	_lastIsFree = isFree;
 
 	return _lastIsFree;
+}
+
+int ParkingSpace::PingMedian(unsigned int median)
+{
+	if (_powerSavingEnabled)
+	{
+		digitalWrite(_powerDownPin, HIGH);
+		delay(10);
+	}
+
+	int uS = _distanceSensor.ping_median(median);
+
+	if (_powerSavingEnabled)
+	{
+		digitalWrite(_powerDownPin, LOW);
+	}
+
+	return uS;
 }
 
 bool ParkingSpace::EvaluateIfFree(int distance)

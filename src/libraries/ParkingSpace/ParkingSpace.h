@@ -12,13 +12,18 @@ public:
 	bool PingAndReturnFreeStatus();
 	bool IsFree() { return _lastIsFree; };
 	unsigned int GetSpaceNumber() { return _parkingSpaceNumber; };
+	void EnablePowerSaving(unsigned int powerDownPin);
+	void DisablePowerSaving();
 
 private:
 	NewPing _distanceSensor;
 	unsigned int _parkingSpaceNumber;
 	bool _lastIsFree;
 	unsigned int _maxOccupiedDistance_cm;
+	bool _powerSavingEnabled;
+	unsigned int _powerDownPin;
 	bool EvaluateIfFree(int distance);
+	int PingMedian(unsigned int median);
 };
 
 #endif
